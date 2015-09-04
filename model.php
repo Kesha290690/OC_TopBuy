@@ -1,9 +1,10 @@
-public function getLastByProduct($limit,$category_id)
+public function getLastByProduct($limit,$category_id,$type)
 	{
 		$query = $this->db->query("SELECT DISTINCT
 oh.order_id,
 oh.date_added,
 op.product_id,
+COUNT(op.name),
 pd.name,
 ptc.category_id
 FROM oc_order_history oh
@@ -15,7 +16,7 @@ LEFT JOIN oc_product_to_category ptc
 ON ptc.product_id = op.product_id
 WHERE ptc.category_id = '$category_id'
 GROUP BY pd.name
-ORDER BY oh.date_added DESC
+ORDER BY oh.date_added $type DESC
 LIMIT $limit");
 		return $query->rows;
 	}

@@ -10,7 +10,13 @@ public function getLastProduct(){
 			$category_id = $this->request->post['category'];
 			$json = array();
 
-			$lastAdd = $this->model_catalog_category->getLastByProduct($limit,$category_id);
+			if (isset($this->request->post['type'])) {
+				$type = ',COUNT(op.name) ';
+			} else {
+				$type = ' ';
+			}
+
+			$lastAdd = $this->model_catalog_category->getLastByProduct($limit,$category_id,$type);
 
 
 			$json['sell'] = array();
